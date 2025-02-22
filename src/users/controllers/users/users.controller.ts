@@ -33,9 +33,10 @@ export class UsersController {
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
     const { confirmPassword, ...userDetails } = createUserDto;
-    if (confirmPassword !== userDetails.password) {
-      throw new Error('Passwords do not match');
-    }
+
+    if (confirmPassword !== userDetails.password)
+      return res.status(401).send({ error: 'Passwords do not match' });
+
     userDetails.password = await this.hashPassword(userDetails.password);
 
     const user = await this.userService.createUser(userDetails);
@@ -50,17 +51,16 @@ export class UsersController {
     @Res() res: Response,
   ) {
     const user = await this.userService.findUserByEmail(loginUserDto.email);
-    if (!user) {
-      throw new Error('Invalid credentials');
-    }
+
+    if (!user) return res.status(401).send({ error: 'Invalid credentials' });
 
     const isPasswordValid = await this.comparePasswords(
       loginUserDto.password,
       user.password,
     );
-    if (!isPasswordValid) {
-      throw new Error('Invalid credentials');
-    }
+
+    if (!isPasswordValid)
+      return res.status(401).send({ error: 'Invalid credentials' });
 
     const token = this.generateToken(user);
     res.cookie('jwt', token, { httpOnly: true });
@@ -73,13 +73,21 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
     @Req() req: Request,
+    @Res() res: Response,
   ) {
+    const token = req.cookies['jwt'];
+    const decoded = this.decodeIdFromToken(token);
+
+    if (decoded.id !== id)
+      return res.status(401).send({ error: 'Unauthorized' });
+
     const { ...userDetails } = updateUserDto;
-    if (userDetails.password) {
+
+    if (userDetails.password)
       userDetails.password = await this.hashPassword(userDetails.password);
-    }
+
     await this.userService.updateUser(userDetails, id);
-    return 'User updated successfully';
+    return res.send({ message: 'User updated successfully' });
   }
 
   @Delete(':id')
@@ -87,15 +95,16 @@ export class UsersController {
   async deleteUserById(
     @Param('id', ParseIntPipe) id: number,
     @Req() req: Request,
+    @Res() res: Response,
   ) {
     const token = req.cookies['jwt'];
     const decoded = this.decodeIdFromToken(token);
-    if (decoded.id !== id) {
-      throw new Error('Unauthorized');
-    }
+
+    if (decoded.id !== id)
+      return res.status(401).send({ error: 'Unauthorized' });
 
     await this.userService.deleteUser(id);
-    return 'User deleted successfully';
+    return res.send({ message: 'User deleted successfully' });
   }
 
   private generateToken(user: any) {
