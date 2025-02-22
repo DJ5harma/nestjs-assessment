@@ -11,16 +11,16 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dtos/CreateUser.dto';
-import { UpdateUserDto } from 'src/users/dtos/UpdateUser.dto';
-import { UsersService } from 'src/users/services/users/users.service';
+import { CreateUserDto } from '../../../../src/users/dtos/CreateUser.dto';
+import { UpdateUserDto } from '../../../../src/users/dtos/UpdateUser.dto';
+import { UsersService } from '../../../../src/users/services/users/users.service';
 import { Request, Response } from 'express';
-import { UsersGuard } from 'src/users/guards/users/users.guard';
+import { UsersGuard } from '../../../../src/users/guards/users/users.guard';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
-import { JWT_SECRET } from 'src/users/guards/users/users.guard';
-import { LoginUserDto } from 'src/users/dtos/LoginUser.dto';
+import { JWT_SECRET } from '../../../../src/users/guards/users/users.guard';
+import { LoginUserDto } from '../../../../src/users/dtos/LoginUser.dto';
 
 // This controller is responsible for handling all user-related operations
 // It uses the UsersService to interact with the database

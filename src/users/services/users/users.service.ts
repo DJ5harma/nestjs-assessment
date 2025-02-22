@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/typeorm/entities/User';
-import { CreateUserParams, UpdateUserParams } from 'src/utils/types';
+import { User } from '../../../../src/typeorm/entities/User';
+import {
+  CreateUserParams,
+  UpdateUserParams,
+} from '../../../../src/utils/types';
 import { Repository } from 'typeorm';
 
 // This service is responsible for handling all user-related operations
