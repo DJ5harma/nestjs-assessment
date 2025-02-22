@@ -1,3 +1,9 @@
+to setup: `npm i`
+
+to run actual server (which fully works!): `npm run start:dev`
+
+to run test cases : `npm run test:e2e`
+
 # Users Module
 
 This module handles all user-related operations. It includes the controller, service, and entity for managing users.
