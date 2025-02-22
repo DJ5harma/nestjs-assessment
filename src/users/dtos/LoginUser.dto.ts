@@ -1,4 +1,12 @@
+import { IsNotEmpty, IsString } from 'class-validator';
+
+// DTO for logging in a user
 export class LoginUserDto {
-  username: string;
+  @IsString()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
