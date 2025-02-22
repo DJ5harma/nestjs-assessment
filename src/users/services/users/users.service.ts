@@ -14,6 +14,14 @@ export class UsersService {
     return this.userRepository.find();
   }
 
+  findUserByUsername(username: string) {
+    return this.userRepository.findOneBy({ username });
+  }
+
+  findUserByEmail(email: string) {
+    return this.userRepository.findOneBy({ email });
+  }
+
   createUser(userDetails: CreateUserParams) {
     const new_user = this.userRepository.create(userDetails);
     return this.userRepository.save(new_user);
@@ -21,5 +29,8 @@ export class UsersService {
 
   updateUser(userDetails: UpdateUserParams, id: number) {
     return this.userRepository.update({ id }, { ...userDetails });
+  }
+  deleteUser(id: number) {
+    return this.userRepository.delete({ id });
   }
 }
