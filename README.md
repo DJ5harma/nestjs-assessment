@@ -4,6 +4,8 @@ to run actual server (which fully works!): `npm run start:dev`
 
 to run test cases : `npm run test:e2e`
 
+make sure to change your database credentials inside `"src/app.module.ts"`
+
 # Users Module
 
 This module handles all user-related operations. It includes the controller, service, and entity for managing users.
