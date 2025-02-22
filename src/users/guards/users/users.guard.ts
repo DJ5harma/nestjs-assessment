@@ -17,7 +17,7 @@ export class UsersGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<CustomRequest>();
 
     // Get the token from the request cookies
-    const token = request.cookies['jwt'];
+    const token = request.cookies?.jwt;
 
     if (!token) return false;
 
