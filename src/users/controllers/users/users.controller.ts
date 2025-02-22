@@ -7,14 +7,13 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get()
-  getUsers() {
-    return 'All users';
+  async getUsers() {
+    return await this.userService.findUsers();
   }
 
   @Post()
   createUser(@Body() createUserDto: CreateUserDto) {
     const { confirmPassword, ...userDetails } = createUserDto;
-    this.userService.createUser(userDetails);
-    return 'User created';
+    return this.userService.createUser(userDetails);
   }
 }
